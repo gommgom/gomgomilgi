@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import './App.css';
-import AddDiary from './addDiary';
+import AddDiary from './AddDiary';
 
 function App() {
   return (
