@@ -2,6 +2,7 @@ import * as React from "react";
 import 'react-quill/dist/quill.snow.css';
 import QuilEditor from "./component/QuilEditor";
 import {useRef, useState} from "react";
+import styles from "./styles/AddDiary.module.css"
 
 export default function AddDiary() {
     const quillRef = useRef();
@@ -47,26 +48,30 @@ export default function AddDiary() {
 
     return(
         <>
-            <div className="select-sticker">
-                <button
-                    onClick={() => {
-                        setCheck((e) => !e);
-                    }}
-                >
-                    {stickersList[stickers].icon}
-                </button>
-            </div>
-            {isCheck && (
+            <div className={styles.selectSticker}>
                 <div>
-                    {
-                        stickersList.map(function (sticker){
-                            return(
-                                <button onClick={() => {handleSticker(sticker.id)}}>{sticker.icon}</button>
-                            )
-                        })
-                    }
+                    <button
+                        onClick={() => {
+                            setCheck((e) => !e);
+                        }}
+                    >
+                        {stickersList[stickers].icon}
+                    </button>
                 </div>
-            )}
+                <div>
+                    {isCheck && (
+                        <div>
+                            {
+                                stickersList.map(function (sticker){
+                                    return(
+                                        <button onClick={() => {handleSticker(sticker.id)}}>{sticker.icon}</button>
+                                    )
+                                })
+                            }
+                        </div>
+                    )}
+                </div>
+            </div>
             <QuilEditor quillRef={quillRef} contents={contents} setContents={setContents}/>
             <button onClick={handleSubmit}>submit</button>
         </>
