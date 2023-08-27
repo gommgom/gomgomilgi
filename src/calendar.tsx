@@ -1,26 +1,7 @@
-/*import { useState } from 'react';
-import Calendar from 'react-calendar';
-import "react-calendar/dist/Calendar.css";
-
-type ValuePiece = Date | null;
-
-type Value = ValuePiece | [ValuePiece, ValuePiece];
-
-function MyApp() {
-    const [value, onChange] = useState<Value>(new Date());
-
-    return (
-        <div>
-            <Calendar onChange={onChange} value={value} />
-        </div>
-    );
-}
-
-export default MyApp;*/
-
 import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
 import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isSameMonth, isSameDay, addDays, parse } from 'date-fns';
+import './calendar.css';
 
 interface RenderHeaderProps {
     currentMonth: Date;
@@ -31,23 +12,18 @@ interface RenderHeaderProps {
 const RenderHeader: React.FC<RenderHeaderProps> = ({ currentMonth, prevMonth, nextMonth }) => {
     return (
         <div className="header row">
-            <h3 style ={{
-                color: "black",
-                backgroundColor: "white"
-            }}>
             <div className="col col-start">
                 <span className="text">
-                    <span className="text month">
-                        {format(currentMonth, "M")}월
-                    </span>
                     {format(currentMonth, 'yyyy')}
+                </span>
+                <span className="text month">
+                        {format(currentMonth, "M")}월
                 </span>
             </div>
             <div className="col col-end">
-                <Icon icon="bi:arrow-left-circle-til" onClick={prevMonth} />
+                <Icon icon="bi:arrow-left-circle-fill" onClick={prevMonth} />
                 <Icon icon="bi:arrow-right-circle-fill" onClick={nextMonth} />
             </div>
-            </h3>
         </div>
     );
 };
