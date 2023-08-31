@@ -73,7 +73,9 @@ export default function AddDiary() {
                 </div>
             </div>
             <QuilEditor quillRef={quillRef} contents={contents} setContents={setContents}/>
+
             <button onClick={handleSubmit}>submit</button>
+
         </>
     )
 }
