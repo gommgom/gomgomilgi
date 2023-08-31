@@ -48,9 +48,10 @@ export default function AddDiary() {
 
     return(
         <>
-            <div className={styles.selectSticker}>
+            <div className={styles.divSticker}>
                 <div>
                     <button
+                        className={styles.btnSticker}
                         onClick={() => {
                             setCheck((e) => !e);
                         }}
@@ -64,7 +65,10 @@ export default function AddDiary() {
                             {
                                 stickersList.map(function (sticker){
                                     return(
-                                        <button onClick={() => {handleSticker(sticker.id)}}>{sticker.icon}</button>
+                                        <button
+                                            className={styles.btnSticker}
+                                            onClick={() => {handleSticker(sticker.id)}}>{sticker.icon}
+                                        </button>
                                     )
                                 })
                             }
@@ -74,7 +78,9 @@ export default function AddDiary() {
             </div>
             <QuilEditor quillRef={quillRef} contents={contents} setContents={setContents}/>
 
-            <button onClick={handleSubmit}>submit</button>
+            <button
+                className={styles.btnSubmit}
+                onClick={handleSubmit}>submit</button>
 
         </>
     )
