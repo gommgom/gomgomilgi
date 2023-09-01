@@ -1,8 +1,10 @@
 .calendar {
-  width: 38%;
-  height: 70%;
-  margin-left: 31%;
-  font-size: 1.3em;
+  /*position: fixed;*/
+  top: 50%;
+  left: auto;
+  width: 400px;
+  height: 150px;
+  /*font-size: 1.3em;*/
 }
 
 .row {
@@ -18,15 +20,19 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left: 45 %;
+  margin-left: 45%;
 }
 
 .text {
-  color: gray;
+  color: slategray;
 }
 
 .text.month {
   color: black;
+}
+
+.not-valid {
+  color: gray;
 }
 
 .header {
@@ -34,3 +40,35 @@
   color: black;
 }
 
+.days {
+  width: 100%;
+  height: 45%;
+  display: flex;
+}
+
+.body {
+  width: 100%;
+  height: 140%;
+  display: flex;
+  flex-direction: column;
+}
+
+.col {
+  width: 13.5%;
+  height: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+
+.selected {
+  color: palevioletred;
+}
+
+.col.cell.valid:hover {
+  cursor: pointer;
+  transform: scale(1.01);
+  border: none;
+ }

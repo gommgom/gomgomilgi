@@ -21,8 +21,8 @@ const RenderHeader: React.FC<RenderHeaderProps> = ({ currentMonth, prevMonth, ne
                 </span>
             </div>
             <div className="col col-end">
-                <Icon icon="bi:arrow-left-circle-fill" onClick={prevMonth} />
-                <Icon icon="bi:arrow-right-circle-fill" onClick={nextMonth} />
+                <Icon icon="bi:caret-left" onClick={prevMonth} />
+                <Icon icon="bi:caret-right" onClick={nextMonth} />
             </div>
         </div>
     );
@@ -49,10 +49,10 @@ interface RenderCellsProps {
 }
 
 const RenderCells: React.FC<RenderCellsProps> = ({ currentMonth, selectedDate, onDateClick }) => {
-    const monthStart = startOfMonth(currentMonth);
-    const monthEnd = endOfMonth(monthStart);
-    const startDate = startOfWeek(monthStart);
-    const endDate = endOfWeek(monthEnd);
+    const monthStart = startOfMonth(currentMonth); //달의 첫 날짜
+    const monthEnd = endOfMonth(monthStart); //달의 마지막 날짜
+    const startDate = startOfWeek(monthStart); //달의 첫 날짜의 주의 일요일 날짜
+    const endDate = endOfWeek(monthEnd); //달의 마지막 날짜의 주의 토요일 날짜
 
     const rows = [];
     let days = [];
@@ -65,7 +65,7 @@ const RenderCells: React.FC<RenderCellsProps> = ({ currentMonth, selectedDate, o
 
             days.push(
                 <div
-                    className={`col cell ${
+                    className={`col cell row ${
                         !isSameMonth(day, monthStart)
                             ? 'disabled'
                             : isSameDay(day, selectedDate)
@@ -88,6 +88,7 @@ const RenderCells: React.FC<RenderCellsProps> = ({ currentMonth, selectedDate, o
             <div className="row" key={day.toString()}>
                 {days}
             </div>,
+
         );
         days = [];
     }
