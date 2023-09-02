@@ -5,6 +5,7 @@ import AddDiary from './AddDiary';
 import Diary from './Diary';
 
 function App() {
+
   return (
       <>
           <body>
