@@ -1,7 +1,11 @@
 .calendar {
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  transform: translate(-50%,-50%);
   /*position: fixed;*/
-  top: 50%;
-  left: auto;
+  /*top: 50%;
+  left: auto;*/
   width: 400px;
   height: 150px;
   /*font-size: 1.3em;*/
@@ -23,16 +27,22 @@
   margin-left: 45%;
 }
 
+/*연도*/
 .text {
   color: slategray;
+  font-size: 1.1em;
 }
 
+/*달*/
 .text.month {
   color: black;
+  font-size: 1.2em;
 }
 
+/*이번 달 아닌 날짜*/
 .not-valid {
   color: gray;
+  font-size: 1.0em;
 }
 
 .header {

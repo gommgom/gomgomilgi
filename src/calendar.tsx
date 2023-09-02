@@ -54,6 +54,11 @@ const RenderCells: React.FC<RenderCellsProps> = ({ currentMonth, selectedDate, o
     const startDate = startOfWeek(monthStart); //달의 첫 날짜의 주의 일요일 날짜
     const endDate = endOfWeek(monthEnd); //달의 마지막 날짜의 주의 토요일 날짜
 
+    const handleCellClick = (date: Date) => {
+        onDateClick(date);
+        console.log("선택된 날짜" + date);
+    }
+
     const rows = [];
     let days = [];
     let day = startDate;
@@ -75,7 +80,7 @@ const RenderCells: React.FC<RenderCellsProps> = ({ currentMonth, selectedDate, o
                                     : 'valid'
                     }`}
                     key={day.toString()}
-                    onClick={() => onDateClick(parse(cloneDay.toString(), 'yyyy-MM-dd', new Date()))}
+                    onClick={() => handleCellClick(cloneDay)}
                 >
                     <span className={format(currentMonth, 'M') !== format(day, 'M') ? 'text not-valid' : ''}>
                         {formattedDate}
@@ -88,10 +93,10 @@ const RenderCells: React.FC<RenderCellsProps> = ({ currentMonth, selectedDate, o
             <div className="row" key={day.toString()}>
                 {days}
             </div>,
-
         );
         days = [];
     }
+
     return <div className="body">{rows}</div>;
 };
 
