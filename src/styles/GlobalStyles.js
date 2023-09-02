@@ -15,6 +15,13 @@ const GlobalStyles = createGlobalStyle`
     .ql-editor{
       height: 60vh;
     }
+    
+    i {
+      font-style: italic;
+    }
+    b {
+      font-weight: bold;
+    }
 `;
 
 export default GlobalStyles;
