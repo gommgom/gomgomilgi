@@ -6,12 +6,14 @@ import AddDiary from './AddDiary';
 function App() {
   return (
       <>
-          <Routes>
-              <Route path="/" element={<AddDiary />} />
-              <Route path="/calendar" element={<Calendar />} />
-          </Routes>
-          <GlobalStyles/>
+          <body>
+              <Routes>
+                  <Route path="/" element={<Calendar />} />
+                  <Route path="/addDiary" element={<AddDiary />} />
+              </Routes>
+          </body>
 
+          <GlobalStyles/>
       </>
   );
 }
