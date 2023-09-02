@@ -13,9 +13,16 @@ export default function AddDiary() {
 
     const navigate = useNavigate();
 
+    const date = new Date('2023-09-01');
+
+    let diaryArr = [];
+
     const handleSubmit = async () => {
-        window.localStorage.setItem("content", JSON.stringify(contents));
-        window.localStorage.setItem("sticker", JSON.stringify(stickersList[stickers].icon));
+        diaryArr.push(
+            {content: contents},
+            {sticker: stickersList[stickers].icon});
+
+        window.localStorage.setItem(date.toLocaleDateString(), JSON.stringify(diaryArr))
 
         navigate("/diary");
     }
@@ -54,6 +61,9 @@ export default function AddDiary() {
 
     return(
         <>
+            <div>
+                {date.toLocaleDateString()}
+            </div>
             <div className={styles.divSticker}>
                 <div>
                     <button
