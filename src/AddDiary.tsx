@@ -3,6 +3,7 @@ import 'react-quill/dist/quill.snow.css';
 import QuilEditor from "./component/QuilEditor";
 import {useRef, useState} from "react";
 import styles from "./styles/AddDiary.module.css"
+import { useNavigate } from "react-router-dom";
 
 export default function AddDiary() {
     const quillRef = useRef();
@@ -10,8 +11,13 @@ export default function AddDiary() {
     const [isCheck, setCheck] = useState(false);
     const [stickers, setStickers] = useState(0);
 
+    const navigate = useNavigate();
+
     const handleSubmit = async () => {
-        console.log(contents);
+        window.localStorage.setItem("content", JSON.stringify(contents));
+        window.localStorage.setItem("sticker", JSON.stringify(stickersList[stickers].icon));
+
+        navigate("/diary");
     }
 
     const handleSticker = (index) => {

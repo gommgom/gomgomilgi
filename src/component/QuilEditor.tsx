@@ -1,4 +1,4 @@
-import ReactQuill from 'react-quill';
+import ReactQuill, {Quill} from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import React, {memo, useMemo,} from "react";
 
@@ -10,6 +10,13 @@ type QuillEditorProps = {
 }
 
 const QuilEditor = memo(({quillRef, contents, setContents} : QuillEditorProps) => {
+    let bold = Quill.import('formats/bold');
+    bold.tagName = 'b';
+    Quill.register(bold, true);
+
+    let italic = Quill.import('formats/italic');
+    italic.tagName = 'i';
+    Quill.register(italic, true);
 
     const modules = useMemo(
         () => ({
@@ -18,10 +25,10 @@ const QuilEditor = memo(({quillRef, contents, setContents} : QuillEditorProps) =
                     ["bold", "italic", "underline", "strike", "blockquote"],
                     [{ size: ["small", false, "large", "huge"] }, { color: [] }],
                     [
-                        { list: "ordered" },
-                        { list: "bullet" },
-                        { indent: "-1" },
-                        { indent: "+1" },
+                        // { list: "ordered" },
+                        // { list: "bullet" },
+                        // { indent: "-1" },
+                        // { indent: "+1" },
                         { align: [] },
                     ],
                 ],
