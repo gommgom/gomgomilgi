@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
 import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isSameMonth, isSameDay, addDays, parse } from 'date-fns';
 import './styles/calendar.css';
+import Diary from './Diary';
+
 
 interface RenderHeaderProps {
     currentMonth: Date;
@@ -57,11 +59,13 @@ const RenderCells: React.FC<RenderCellsProps> = ({ currentMonth, selectedDate, o
     const handleCellClick = (date: Date) => {
         onDateClick(date);
         console.log("선택된 날짜" + date);
+        //console.log(date.toLocaleDateString())
     }
 
     const rows = [];
     let days = [];
     let day = startDate;
+    const result = Diary(selectedDate.toLocaleDateString());
 
     while (day <= endDate) {
         for (let i = 0; i < 7; i++) {
@@ -97,7 +101,10 @@ const RenderCells: React.FC<RenderCellsProps> = ({ currentMonth, selectedDate, o
         days = [];
     }
 
-    return <div className="body">{rows}</div>;
+    return <div className="body">
+        {rows}
+        {result}
+    </div>;
 };
 
 interface CalendarProps {}
