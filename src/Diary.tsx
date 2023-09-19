@@ -1,7 +1,13 @@
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function Diary() {
-    const diaryArr = JSON.parse(localStorage.getItem("2023. 9. 1."))
+export default function Diary(date) {
+    const navigate = useNavigate();
+    const diaryArr = JSON.parse(localStorage.getItem(date));
+    if (diaryArr === null) {
+        navigate("/addDiary");
+        return null;
+    }
 
     const contents = diaryArr[0].content
     const sticker = diaryArr[1].sticker
