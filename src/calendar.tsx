@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
 import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isSameMonth, isSameDay, addDays, parse } from 'date-fns';
 import './styles/calendar.css';
-import Diary from './Diary';
+import {useNavigate} from "react-router-dom";
 
 
 interface RenderHeaderProps {
@@ -55,17 +55,25 @@ const RenderCells: React.FC<RenderCellsProps> = ({ currentMonth, selectedDate, o
     const monthEnd = endOfMonth(monthStart); //달의 마지막 날짜
     const startDate = startOfWeek(monthStart); //달의 첫 날짜의 주의 일요일 날짜
     const endDate = endOfWeek(monthEnd); //달의 마지막 날짜의 주의 토요일 날짜
+    const navigate = useNavigate();
 
     const handleCellClick = (date: Date) => {
         onDateClick(date);
         console.log("선택된 날짜" + date);
         //console.log(date.toLocaleDateString())
+        window.localStorage.setItem("selectedDate", date.toLocaleDateString())
+
+        if(window.localStorage.getItem(date.toLocaleDateString())){
+            console.log("저장되어있음");
+        }
+        else{
+            navigate("/addDiary")
+        }
     }
 
     const rows = [];
     let days = [];
     let day = startDate;
-    const result = Diary(selectedDate.toLocaleDateString());
 
     while (day <= endDate) {
         for (let i = 0; i < 7; i++) {
@@ -103,7 +111,14 @@ const RenderCells: React.FC<RenderCellsProps> = ({ currentMonth, selectedDate, o
 
     return <div className="body">
         {rows}
-        {result}
+        {localStorage.getItem(selectedDate.toLocaleDateString()) != null
+            ?
+            <div className="diary">
+                {JSON.parse(localStorage.getItem(selectedDate.toLocaleDateString())).sticker}
+                <div dangerouslySetInnerHTML={ {__html: JSON.parse(localStorage.getItem(selectedDate.toLocaleDateString())).content} }></div>
+            </div>
+            : null
+        }
     </div>;
 };
 
@@ -267,4 +282,3 @@ export const Calendar = () => {
 };
 
 export default Calendar;*/
-
