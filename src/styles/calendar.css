@@ -81,3 +81,7 @@
   transform: scale(1.01);
   border: none;
  }
+
+.diary {
+  padding: 10px;
+}

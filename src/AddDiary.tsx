@@ -13,16 +13,20 @@ export default function AddDiary() {
 
     const navigate = useNavigate();
 
-    const date = new Date();
+    const date = new Date(localStorage.getItem("selectedDate"));
     const dateString = date.toLocaleDateString();
     console.log(dateString);
 
-    let diaryArr = [];
+    let diaryArr;
 
     const handleSubmit = async () => {
+        /*
         diaryArr.push(
             {content: contents},
             {sticker: stickersList[stickers].icon});
+
+         */
+        diaryArr = {content: contents, sticker: stickersList[stickers].icon};
 
         window.localStorage.setItem(dateString, JSON.stringify(diaryArr))
 
