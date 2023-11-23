@@ -20,12 +20,6 @@ export default function AddDiary() {
     let diaryArr;
 
     const handleSubmit = async () => {
-        /*
-        diaryArr.push(
-            {content: contents},
-            {sticker: stickersList[stickers].icon});
-
-         */
         diaryArr = {content: contents, sticker: stickersList[stickers].icon};
 
         window.localStorage.setItem(dateString, JSON.stringify(diaryArr))

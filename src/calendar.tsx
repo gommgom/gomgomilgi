@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
 import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isSameMonth, isSameDay, addDays, parse } from 'date-fns';
 import './styles/calendar.css';
+import styles from './styles/AddDiary.module.css'
 import {useNavigate} from "react-router-dom";
+import Modal from 'react-modal';
 
 
 interface RenderHeaderProps {
@@ -57,6 +59,8 @@ const RenderCells: React.FC<RenderCellsProps> = ({ currentMonth, selectedDate, o
     const endDate = endOfWeek(monthEnd); //달의 마지막 날짜의 주의 토요일 날짜
     const navigate = useNavigate();
 
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+
     const handleCellClick = (date: Date) => {
         onDateClick(date);
         console.log("선택된 날짜" + date);
@@ -67,7 +71,7 @@ const RenderCells: React.FC<RenderCellsProps> = ({ currentMonth, selectedDate, o
             console.log("저장되어있음");
         }
         else{
-            navigate("/addDiary")
+            setModalIsOpen(true);
         }
     }
 
@@ -109,17 +113,68 @@ const RenderCells: React.FC<RenderCellsProps> = ({ currentMonth, selectedDate, o
         days = [];
     }
 
-    return <div className="body">
-        {rows}
-        {localStorage.getItem(selectedDate.toLocaleDateString()) != null
-            ?
-            <div className="diary">
-                {JSON.parse(localStorage.getItem(selectedDate.toLocaleDateString())).sticker}
-                <div dangerouslySetInnerHTML={ {__html: JSON.parse(localStorage.getItem(selectedDate.toLocaleDateString())).content} }></div>
+    /*overlay는 모달 창 바깥 부분
+    content는 모달 창부분*/
+    const customModalStyles: Modal.Styles = {
+        overlay: {
+            backgroundColor: " rgba(0, 0, 0, 0.4)",
+            width: "100%",
+            height: "100vh",
+            zIndex: "10",
+            position: "fixed",
+            top: "0",
+            left: "0",
+        },
+        content: {
+            width: "400px",
+            height: "120px",
+            zIndex: "150",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            borderRadius: "10px",
+            boxShadow: "2px 2px 2px rgba(0, 0, 0, 0.25)",
+            backgroundColor: "white",
+            display: "flex",
+            flexDirection:"column",
+            justifyContent:"space-around",
+            textAlign:"center",
+            overflow: "auto",
+        },
+
+    };
+
+    return(
+        <>
+            <div className="body">
+                {rows}
+                {localStorage.getItem(selectedDate.toLocaleDateString()) != null
+                    ?
+                    <div className="diary">
+                        {JSON.parse(localStorage.getItem(selectedDate.toLocaleDateString())).sticker}
+                        <div dangerouslySetInnerHTML={ {__html: JSON.parse(localStorage.getItem(selectedDate.toLocaleDateString())).content} }></div>
+                    </div>
+                    : null
+                }
             </div>
-            : null
-        }
-    </div>;
+            {/* 일기 작성 페이지로 넘어가기 전 모달 */}
+            <Modal
+                style={customModalStyles}
+                isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
+                작성하신 일기가 없습니다.
+                일기를 작성하시겠습니까?
+                <div className={styles.divModalBtn}>
+                    <button className={styles.btnModal} onClick={() => navigate("/addDiary")}>
+                        예
+                    </button>
+                    <button className={styles.btnModal} onClick={() => setModalIsOpen(false)}>
+                        아니요
+                    </button>
+                </div>
+            </Modal>
+        </>
+    );
 };
 
 interface CalendarProps {}
@@ -157,128 +212,3 @@ const Calendar: React.FC<CalendarProps> = () => {
 };
 
 export default Calendar;
-
-
-/*import React, { useState } from 'react';
-import { Icon } from '@iconify/react';
-import { format, addMonths, subMonths } from 'date-fns';
-import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from 'date-fns';
-import { isSameMonth, isSameDay, addDays, parse } from 'date-fns';
-
-const RenderHeader = ({ currentMonth, prevMonth, nextMonth }) => {
-    return (
-        <div className="header row">
-            <div className="col col-start">
-                <span className="text">
-                    <span className="text month">
-                        {format(currentMonth, 'M')}월
-                    </span>
-                    {format(currentMonth, 'yyyy')}
-                </span>
-            </div>
-            <div className="col col-end">
-                <Icon icon="bi:arrow-left-circle-fill" onClick={prevMonth} />
-                <Icon icon="bi:arrow-right-circle-fill" onClick={nextMonth} />
-            </div>
-        </div>
-    );
-};
-
-const RenderDays = () => {
-    const days = [];
-    const date = ['Sun', 'Mon', 'Thu', 'Wed', 'Thurs', 'Fri', 'Sat'];
-
-    for (let i = 0; i < 7; i++) {
-        days.push(
-            <div className="col" key={i}>
-                {date[i]}
-            </div>,
-        );
-    }
-
-    return <div className="days row">{days}</div>;
-};
-
-const RenderCells = ({ currentMonth, selectedDate, onDateClick }) => {
-    const monthStart = startOfMonth(currentMonth);
-    const monthEnd = endOfMonth(monthStart);
-    const startDate = startOfWeek(monthStart);
-    const endDate = endOfWeek(monthEnd);
-
-    const rows = [];
-    let days = [];
-    let day = startDate;
-    let formattedDate = '';
-
-    while (day <= endDate) {
-        for (let i = 0; i < 7; i++) {
-            formattedDate = format(day, 'd');
-            const cloneDay = day;
-            days.push(
-                <div
-                    className={`col cell ${
-                        !isSameMonth(day, monthStart)
-                            ? 'disabled'
-                            : isSameDay(day, selectedDate)
-                                ? 'selected'
-                                : format(currentMonth, 'M') !== format(day, 'M')
-                                    ? 'not-valid'
-                                    : 'valid'
-                    }`}
-                    key={day.toString()}
-                    onClick={() => onDateClick(parse(cloneDay.toString(), 'yyyy-MM-dd', new Date()))}
-                >
-                    <span
-                        className={
-                            format(currentMonth, 'M') !== format(day, 'M')
-                                ? 'text not-valid'
-                                : ''
-                        }
-                    >
-                        {formattedDate}
-                    </span>
-                </div>,
-            );
-            day = addDays(day, 1);
-        }
-        rows.push(
-            <div className="row" key={day.toString()}>
-                {days}
-            </div>,
-        );
-        days = [];
-    }
-    return <div className="body">{rows}</div>;
-};
-
-export const Calendar = () => {
-    const [currentMonth, setCurrentMonth] = useState(new Date());
-    const [selectedDate, setSelectedDate] = useState(new Date());
-
-    const prevMonth = () => {
-        setCurrentMonth(subMonths(currentMonth, 1));
-    };
-    const nextMonth = () => {
-        setCurrentMonth(addMonths(currentMonth, 1));
-    };
-    const onDateClick = (day) => {
-        setSelectedDate(day);
-    };
-    return (
-        <div className="calendar">
-            <RenderHeader
-                currentMonth={currentMonth}
-                prevMonth={prevMonth}
-                nextMonth={nextMonth}
-            />
-            <RenderDays />
-            <RenderCells
-                currentMonth={currentMonth}
-                selectedDate={selectedDate}
-                onDateClick={onDateClick}
-            />
-        </div>
-    );
-};
-
-export default Calendar;*/
