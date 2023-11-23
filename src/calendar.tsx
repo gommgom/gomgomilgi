@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
 import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, isSameMonth, isSameDay, addDays, parse } from 'date-fns';
 import './styles/calendar.css';
-import styles from './styles/AddDiary.module.css'
+import styles from './styles/Modal.module.css'
 import {useNavigate} from "react-router-dom";
 import Modal from 'react-modal';
 
