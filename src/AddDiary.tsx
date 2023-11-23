@@ -83,7 +83,7 @@ export default function AddDiary() {
                                     return(
                                         <button
                                             className={styles.btnSticker}
-                                            onClick={() => {handleSticker(sticker.id)}}>{sticker.icon}
+                                            onClick={() => {handleSticker(sticker.id); setCheck((e) => !e);}}>{sticker.icon}
                                         </button>
                                     )
                                 })
