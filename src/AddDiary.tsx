@@ -20,12 +20,6 @@ export default function AddDiary() {
     let diaryArr;
 
     const handleSubmit = async () => {
-        /*
-        diaryArr.push(
-            {content: contents},
-            {sticker: stickersList[stickers].icon});
-
-         */
         diaryArr = {content: contents, sticker: stickersList[stickers].icon};
 
         window.localStorage.setItem(dateString, JSON.stringify(diaryArr))
@@ -89,7 +83,7 @@ export default function AddDiary() {
                                     return(
                                         <button
                                             className={styles.btnSticker}
-                                            onClick={() => {handleSticker(sticker.id)}}>{sticker.icon}
+                                            onClick={() => {handleSticker(sticker.id); setCheck((e) => !e);}}>{sticker.icon}
                                         </button>
                                     )
                                 })
